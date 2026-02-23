@@ -88,17 +88,17 @@ cp .mcp.json ~/.claude/.mcp.json
 ## Environment Setup
 
 ```bash
-# Ensure you have Node.js and bunx installed
-# bunx is required for hook execution
+# Ensure you have Node.js and bun x installed
+# bun x is required for hook execution
 # It's bundled with Node.js 18+
-which bunx
-bunx --version
+which bun x
+bun x --version
 ```
 
 ## MCP Server Configuration
 
 The `.mcp.json` file automatically configures:
-- **dev**: Local code execution environment (uses `bunx`)
+- **dev**: Local code execution environment (uses `bun x`)
 - **code-search**: Semantic code search via mcp-codebasesearch
 
 No additional configuration needed.
@@ -193,7 +193,7 @@ cp node_modules/gm-cc/.mcp.json .claude/.mcp.json
 **Solutions:**
 1. Verify .mcp.json exists: `cat ~/.claude/.mcp.json`
 2. Check MCP configuration references correct paths
-3. Ensure bunx is installed: `which bunx`
+3. Ensure bun x is installed: `which bun x`
 4. Restart Claude Code and retry
 
 ### Plugin not appearing in marketplace
