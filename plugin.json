@@ -10,14 +10,14 @@
   "hooks": "./hooks/hooks.json",
   "mcpServers": {
     "dev": {
-      "command": "bunx",
+      "command": "bun x",
       "args": [
         "mcp-gm@latest"
       ],
       "timeout": 360000
     },
     "code-search": {
-      "command": "bunx",
+      "command": "bun x",
       "args": [
         "codebasesearch@latest"
       ],
