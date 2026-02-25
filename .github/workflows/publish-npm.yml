@@ -38,8 +38,7 @@ jobs:
         run: |
           PACKAGE=$(jq -r '.name' package.json)
           VERSION=$(jq -r '.version' package.json)
-          LATEST=$(npm view "$PACKAGE" version 2>/dev/null | tr -d '\n' || echo "0.0.0")
-          echo "LATEST: '$LATEST' VERSION: '$VERSION'"
+          LATEST=$(npm view "$PACKAGE" version 2>/dev/null || echo "0.0.0")
           if [ "$LATEST" = "$VERSION" ]; then
             IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST"
             NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
