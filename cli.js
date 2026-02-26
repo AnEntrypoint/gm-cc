@@ -17,6 +17,7 @@ try {
   const filesToCopy = [
     ['agents', 'agents'],
     ['hooks', 'hooks'],
+    ['skills', 'skills'],
     ['.mcp.json', '.mcp.json'],
     ['README.md', 'README.md']
   ];
