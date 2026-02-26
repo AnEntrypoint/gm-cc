@@ -3,10 +3,10 @@
   "owner": {
     "name": "AnEntrypoint"
   },
-  "description": "Advanced Claude Code plugin with WFGY integration, MCP tools, and automated hooks",
-  "version": "2.0.24",
+  "description": "State machine agent with hooks, skills, and automated git enforcement",
+  "version": "2.0.25",
   "metadata": {
-    "description": "Advanced Claude Code plugin with WFGY integration, MCP tools, and automated hooks"
+    "description": "State machine agent with hooks, skills, and automated git enforcement"
   },
   "plugins": [
     {

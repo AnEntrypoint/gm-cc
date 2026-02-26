@@ -1,7 +1,7 @@
 {
   "name": "gm-cc",
-  "version": "2.0.24",
-  "description": "Advanced Claude Code plugin with WFGY integration, MCP tools, and automated hooks",
+  "version": "2.0.25",
+  "description": "State machine agent with hooks, skills, and automated git enforcement",
   "author": "AnEntrypoint",
   "license": "MIT",
   "repository": {
