@@ -1,21 +1,29 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const destDir = path.join(process.cwd(), '.claude');
+const os = require('os');
+
+const homeDir = process.env.HOME || process.env.USERPROFILE || os.homedir();
+const claudeDir = path.join(homeDir, '.claude');
+const pluginsDir = path.join(claudeDir, 'plugins');
+const destDir = path.join(pluginsDir, 'gm-cc');
 
 const srcDir = __dirname;
 const isUpgrade = fs.existsSync(destDir);
 
-console.log(isUpgrade ? 'Upgrading gm-cc...' : 'Installing gm-cc...');
+console.log(isUpgrade ? 'Upgrading gm-cc plugin...' : 'Installing gm-cc plugin...');
 
 try {
   fs.mkdirSync(destDir, { recursive: true });
 
   const filesToCopy = [
-    ['agents', 'agents'],
-    ['hooks', 'hooks'],
-    ['.mcp.json', '.mcp.json'],
-    ['README.md', 'README.md']
+    'agents',
+    'hooks',
+    '.mcp.json',
+    '.claude-plugin',
+    'plugin.json',
+    'README.md',
+    'CLAUDE.md'
   ];
 
   function copyRecursive(src, dst) {
@@ -28,40 +36,21 @@ try {
     }
   }
 
-  filesToCopy.forEach(([src, dst]) => copyRecursive(path.join(srcDir, src), path.join(destDir, dst)));
+  filesToCopy.forEach(name => copyRecursive(path.join(srcDir, name), path.join(destDir, name)));
 
-  // Register hooks in .claude/settings.json
-  const settingsPath = path.join(destDir, 'settings.json');
-  const hooksJsonPath = path.join(srcDir, 'hooks', 'hooks.json');
-  if (fs.existsSync(hooksJsonPath)) {
-    let settings = {};
-    if (fs.existsSync(settingsPath)) {
-      try { settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8')); } catch (e) {}
-    }
-    const hooksTemplate = JSON.parse(fs.readFileSync(hooksJsonPath, 'utf-8'));
-    const destDirNorm = destDir.replace(/\\/g, '/');
-    const hooksStr = JSON.stringify(hooksTemplate.hooks).replace(/\${CLAUDE_PLUGIN_ROOT}/g, destDirNorm);
-    const newHooks = JSON.parse(hooksStr);
-    if (!settings.hooks) settings.hooks = {};
-    for (const [event, entries] of Object.entries(newHooks)) {
-      if (!settings.hooks[event]) {
-        settings.hooks[event] = entries;
-      } else {
-        settings.hooks[event] = settings.hooks[event].filter(e =>
-          !e.hooks || !e.hooks.some(h => h.command && h.command.includes(destDirNorm))
-        );
-        settings.hooks[event].push(...entries);
-      }
-    }
-    fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2), 'utf-8');
-    console.log('✓ Hooks registered in .claude/settings.json');
+  const settingsPath = path.join(claudeDir, 'settings.json');
+  let settings = {};
+  if (fs.existsSync(settingsPath)) {
+    try { settings = JSON.parse(fs.readFileSync(settingsPath, 'utf-8')); } catch (e) {}
   }
+  if (!settings.enabledPlugins) settings.enabledPlugins = {};
+  settings.enabledPlugins['gm@gm-cc'] = true;
+  fs.mkdirSync(claudeDir, { recursive: true });
+  fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2), 'utf-8');
+  console.log('✓ Plugin registered in ~/.claude/settings.json');
 
-  const destPath = process.platform === 'win32'
-    ? destDir.replace(/\\/g, '/')
-    : destDir;
-  console.log(`✓ gm-cc ${isUpgrade ? 'upgraded' : 'installed'} to ${destPath}`);
-  console.log('Restart Claude Code to activate.');
+  console.log(`✓ gm-cc ${isUpgrade ? 'upgraded' : 'installed'} to ${destDir}`);
+  console.log('Restart Claude Code to activate the gm plugin.');
 } catch (e) {
   console.error('Installation failed:', e.message);
   process.exit(1);
