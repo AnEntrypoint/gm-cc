@@ -5,7 +5,7 @@ const { execSync } = require('child_process');
 
 const projectDir = process.env.CLAUDE_PROJECT_DIR || process.env.GEMINI_PROJECT_DIR || process.env.OC_PROJECT_DIR;
 
-const COMPACT_CONTEXT = 'use gm agent | ref: TOOL_INVARIANTS | codesearch for exploration | plugin:gm:dev for execution';
+const COMPACT_CONTEXT = 'use gm agent | ref: TOOL_INVARIANTS | codesearch for exploration | Bash for execution';
 
 const PLAN_MODE_BLOCK = 'DO NOT use EnterPlanMode or any plan mode tool. Use GM agent planning (PLAN→EXECUTE→EMIT→VERIFY→COMPLETE state machine) instead. Plan mode is blocked.';
 

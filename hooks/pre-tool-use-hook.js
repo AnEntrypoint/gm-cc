@@ -18,7 +18,7 @@ const run = () => {
     if (!tool_name) return { allow: true };
 
     if (forbiddenTools.includes(tool_name)) {
-      return { block: true, reason: 'Use gm:code-search or plugin:gm:dev for semantic codebase search instead of filesystem find' };
+      return { block: true, reason: 'Use gm:code-search for semantic codebase search instead of filesystem find' };
     }
 
     if (writeTools.includes(tool_name)) {
@@ -36,18 +36,18 @@ const run = () => {
           file_path.includes('/tests/') || file_path.includes('/fixtures/') ||
           file_path.includes('/test-data/') || file_path.includes('/__mocks__/') ||
           /\.(snap|stub|mock|fixture)\.(js|ts|json)$/.test(base)) {
-        return { block: true, reason: 'Test files forbidden on disk. Use plugin:gm:dev with real services for all testing.' };
+        return { block: true, reason: 'Test files forbidden on disk. Use Bash tool with real services for all testing.' };
       }
     }
 
     if (searchTools.includes(tool_name)) {
-      return { block: true, reason: 'Code exploration must use: gm:code-search skill or plugin:gm:dev execute. This restriction enforces semantic search over filesystem patterns.' };
+      return { allow: true };
     }
 
     if (tool_name === 'Task') {
       const subagentType = tool_input?.subagent_type || '';
       if (subagentType === 'Explore') {
-        return { block: true, reason: 'Use gm:thorns-overview for codebase insight, then use gm:code-search or plugin:gm:dev' };
+        return { block: true, reason: 'Use gm:thorns-overview for codebase insight, then use gm:code-search' };
       }
     }
 
@@ -59,7 +59,7 @@ const run = () => {
       const command = (tool_input?.command || '').trim();
       const allowed = /^(git |gh |npm publish|npm pack|docker |sudo systemctl|systemctl )/.test(command);
       if (!allowed) {
-        return { block: true, reason: 'Bash is blocked. Use the code_execution MCP tool instead. It supports Python, JS/TS, Go, Rust, C/C++ and bash via the language parameter.' };
+        return { block: true, reason: 'Bash is blocked for non-git/npm/docker commands. Use Read/Write/Edit tools for file operations, or code-search skill for exploration.' };
       }
     }
 
