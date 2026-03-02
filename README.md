@@ -22,8 +22,7 @@ This installation method is best for:
 For development or project-specific customization, install gm-cc directly into your project:
 
 ```bash
-cd /path/to/your/project
-npm install gm-cc && npx gm install
+bun x gm-cc@latest
 ```
 
 This installation method is ideal when you need to:
@@ -32,29 +31,9 @@ This installation method is ideal when you need to:
 - Use the latest development version
 - Configure platform-specific behavior per project
 
-#### Installation Command Breakdown
-
-The `npm install gm-cc && npx gm install` command performs two steps:
-
-1. **`npm install gm-cc`** - Downloads the gm-cc package and stores it in your project's `node_modules/` directory
-2. **`npx gm install`** - Runs the gm installer that copies configuration files into your Claude Code plugin directory
-
-**Expected output:**
-```
-$ npm install gm-cc
-added 1 package in 1.2s
-
-$ npx gm install
-Installing gm-cc...
-✓ Created .claude/ directory
-✓ Copied agents/gm.md
-✓ Copied hooks to .claude/hooks/
-✓ Created .mcp.json for MCP integration
-```
-
 #### Installed File Structure (Project-Specific)
 
-After running `npx gm install`, your project will have:
+After running `bun x gm-cc@latest`, your project will have:
 
 ```
 .claude/
@@ -151,16 +130,8 @@ npm install -g gm-cc@latest
 ### Project-Specific Installation
 
 ```bash
-# Update the package
-npm update gm-cc
-
 # Re-run the installer to update .claude/ directory
-npx gm install
-
-# Or manually copy updated files
-cp -r node_modules/gm-cc/agents/* .claude/agents/
-cp -r node_modules/gm-cc/hooks/* .claude/hooks/
-cp node_modules/gm-cc/.mcp.json .claude/.mcp.json
+bun x gm-cc@latest
 ```
 
 ## Features
