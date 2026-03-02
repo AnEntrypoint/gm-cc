@@ -6,8 +6,8 @@ const path = require('path');
 const isGemini = process.env.GEMINI_PROJECT_DIR !== undefined;
 
 const writeTools = ['Write', 'write_file'];
-const searchTools = ['Glob', 'Grep', 'glob', 'search_file_content', 'Search', 'search'];
-const forbiddenTools = ['find', 'Find'];
+const searchTools = ['glob', 'search_file_content', 'Search', 'search'];
+const forbiddenTools = ['find', 'Find', 'Glob', 'Grep'];
 
 const run = () => {
   try {
@@ -18,7 +18,7 @@ const run = () => {
     if (!tool_name) return { allow: true };
 
     if (forbiddenTools.includes(tool_name)) {
-      return { block: true, reason: 'Use gm:code-search for semantic codebase search instead of filesystem find' };
+      return { block: true, reason: 'Use the code-search skill for codebase exploration instead of Grep/Glob/find. Describe what you need in plain language — it understands intent, not just patterns.' };
     }
 
     if (writeTools.includes(tool_name)) {
