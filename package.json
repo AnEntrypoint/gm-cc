@@ -1,6 +1,6 @@
 {
   "name": "gm-cc",
-  "version": "2.0.67",
+  "version": "2.0.68",
   "description": "State machine agent with hooks, skills, and automated git enforcement",
   "author": "AnEntrypoint",
   "license": "MIT",
@@ -30,7 +30,6 @@
     ".github/",
     ".mcp.json",
     ".claude-plugin/",
-    "plugin.json",
     "cli.js",
     "install.js",
     "README.md",

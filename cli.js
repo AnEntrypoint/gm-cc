@@ -22,7 +22,6 @@ try {
     'skills',
     '.mcp.json',
     '.claude-plugin',
-    'plugin.json',
     'README.md',
     'CLAUDE.md'
   ];
@@ -38,6 +37,10 @@ try {
   }
 
   filesToCopy.forEach(name => copyRecursive(path.join(srcDir, name), path.join(destDir, name)));
+
+  // Remove stale root-level plugin.json (moved to .claude-plugin/plugin.json)
+  const stalePluginJson = path.join(destDir, 'plugin.json');
+  if (fs.existsSync(stalePluginJson)) fs.unlinkSync(stalePluginJson);
 
   // Register in settings.json (enabledPlugins only, no hook injection)
   const settingsPath = path.join(claudeDir, 'settings.json');
@@ -68,7 +71,7 @@ try {
   const existing = Array.isArray(installedPlugins.plugins['gm@gm-cc']) ? installedPlugins.plugins['gm@gm-cc'][0] : null;
   // Also write cache dir so Claude Code finds it without network fetch
   const cacheDir = path.join(pluginsDir, 'cache', 'gm-cc', 'gm', pluginVersion);
-  const filesToCache = ['agents', 'hooks', 'skills', '.mcp.json', '.claude-plugin', 'plugin.json', 'README.md', 'CLAUDE.md'];
+  const filesToCache = ['agents', 'hooks', 'skills', '.mcp.json', '.claude-plugin', 'README.md', 'CLAUDE.md'];
   function copyRecursiveCache(src, dst) {
     if (!fs.existsSync(src)) return;
     if (fs.statSync(src).isDirectory()) {
@@ -78,6 +81,9 @@ try {
   }
   fs.mkdirSync(cacheDir, { recursive: true });
   filesToCache.forEach(name => copyRecursiveCache(path.join(destDir, name), path.join(cacheDir, name)));
+  // Remove stale root-level plugin.json from cache (moved to .claude-plugin/plugin.json)
+  const staleCachePluginJson = path.join(cacheDir, 'plugin.json');
+  if (fs.existsSync(staleCachePluginJson)) fs.unlinkSync(staleCachePluginJson);
   installedPlugins.plugins['gm@gm-cc'] = [{
     scope: 'user',
     installPath: cacheDir,
