@@ -50,6 +50,32 @@ After running `bun x gm-cc@latest`, your project will have:
 
 Each hook runs automatically at the appropriate session event. No manual trigger needed.
 
+### Project Provisioning (Explicit Installation)
+
+To explicitly add all gm-cc hooks, agents, and skills to an existing project:
+
+```bash
+bun x gm-cc@latest -- -p
+```
+
+Or with a global installation:
+
+```bash
+gm-cc -p
+```
+
+This creates a project-local `.claude/settings.json` that configures hooks to use `${CLAUDE_PROJECT_DIR}` for project-specific environments. Useful for:
+- Explicitly provisioning gm-cc to an existing project
+- Overriding global plugin settings for a specific project
+- Team workflows requiring consistent project-level configuration
+
+The `-p` flag copies:
+- All hooks to `.claude/hooks/`
+- All agents to `.claude/agents/`
+- All skills to `.claude/skills/`
+- MCP configuration to `.claude/.mcp.json`
+- Project-specific hook settings to `.claude/settings.json`
+
 ## File Installation (Manual Setup)
 
 If you prefer manual file management, clone the repository and copy files directly:
