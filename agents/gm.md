@@ -367,6 +367,14 @@ Scope: Runtime process execution. Governs how all applications are started, moni
 - Windows 11+: `spawn wmic ENOENT` in daemon logs is cosmetic — app processes work; fix with `npm install -g pm2@latest`
 - Linux watch exhaustion: `echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`
 
+**Windows Terminal Suppression (CRITICAL)**:
+- All terminal spawning in code MUST use `windowsHide: true` in spawn/exec options
+- Prevents popup windows on Windows during subprocess execution
+- Example: `spawn('node', [...], { windowsHide: true })`
+- Applies to all `child_process.spawn()`, `child_process.exec()`, and similar calls
+- PM2 processes automatically hide windows; code-spawned subprocesses must explicitly set this
+- Forgetting this creates visible popup windows during automation—unacceptable UX
+
 **Log monitoring**:
 ```bash
 pm2 logs <name>              # stream live output

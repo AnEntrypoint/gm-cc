@@ -168,6 +168,26 @@ Get-Command myapp | Select-Object -ExpandProperty Source
 ```
 Point `script` at the resolved `.js` file — never at the `.cmd` wrapper.
 
+### Terminal Suppression on Windows (CRITICAL)
+
+All code that spawns subprocesses MUST use `windowsHide: true` to prevent popup windows.
+
+```javascript
+// ❌ WRONG - will show popup windows on Windows
+spawn('node', ['script.js']);
+
+// ✅ CORRECT - hides windows, safe for all platforms
+spawn('node', ['script.js'], { windowsHide: true });
+```
+
+Applies to all subprocess execution:
+- `child_process.spawn()` → `{ windowsHide: true }`
+- `child_process.exec()` → `{ windowsHide: true }`
+- `child_process.execFile()` → `{ windowsHide: true }`
+- `child_process.fork()` → `{ silent: true }` (alternative for fork)
+
+PM2-started processes automatically hide windows. Code-spawned subprocesses must explicitly set this. Forgetting creates visible popups during automation—unacceptable UX.
+
 ### Windows 11+ wmic Error
 
 PM2 uses `wmic` for process stats — removed in Windows 11+.

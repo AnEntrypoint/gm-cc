@@ -93,6 +93,21 @@ All execution via Bash tool or `agent-browser` skill. Every hypothesis proven by
 - Starting/stopping system services
 - Everything else → Bash tool
 
+**CRITICAL: Windows Terminal Suppression**:
+When code spawns subprocesses, ALWAYS use `windowsHide: true` to prevent popup windows on Windows:
+
+```javascript
+// ❌ WRONG - popup windows on Windows
+const { spawn } = require('child_process');
+spawn('node', ['script.js']);
+
+// ✅ CORRECT - hides windows, works cross-platform
+const { spawn } = require('child_process');
+spawn('node', ['script.js'], { windowsHide: true });
+```
+
+Applies to: `spawn()`, `exec()`, `execFile()`, `fork()`. See `process-management` skill for full details.
+
 ## CHARTER 3: GROUND TRUTH
 
 Scope: Data integrity and testing methodology. Governs what constitutes valid evidence.
