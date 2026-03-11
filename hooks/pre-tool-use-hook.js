@@ -57,10 +57,16 @@ const run = () => {
 
     if (tool_name === 'Bash') {
       const command = (tool_input?.command || '').trim();
-      const allowed = /^(git |gh |npm |npx |bun |node |python |python3 |ruby |go |deno |tsx |ts-node |docker |sudo systemctl|systemctl |pm2 |cd )/.test(command);
+      const allowed = /^(git |gh |npm |npx |bun |node |python |python3 |ruby |go |deno |tsx |ts-node |docker |sudo systemctl|systemctl |pm2 |cd |agent-browser )/.test(command);
       if (!allowed) {
-        return { block: true, reason: 'Bash only allows: git, gh, node, python, bun, npx, ruby, go, deno, docker, npm, systemctl, pm2, cd. Write all logic as code and execute it via Bash (e.g. node -e "...", python -c "...", bun -e "..."). Use Read/Write/Edit for file ops. Use code-search skill for exploration.' };
+        return { block: true, reason: 'Bash only allows: git, gh, node, python, bun, npx, ruby, go, deno, docker, npm, systemctl, pm2, cd, agent-browser. Write all logic as code and execute it via Bash (e.g. node -e "...", python -c "...", bun -e "..."). Use Read/Write/Edit for file ops. Use code-search skill for exploration.' };
       }
+    }
+
+    // Allow essential tools explicitly
+    const allowedTools = ['agent-browser', 'Skill', 'code-search', 'electron', 'TaskOutput', 'ReadMcpResourceTool', 'ListMcpResourcesTool'];
+    if (allowedTools.includes(tool_name)) {
+      return { allow: true };
     }
 
     return { allow: true };

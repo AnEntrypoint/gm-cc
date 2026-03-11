@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+// Skip hooks when running inside agentgui subprocess to prevent spurious injections
+if (process.env.AGENTGUI_SUBPROCESS === '1') {
+  console.log(JSON.stringify({ decision: 'approve' }));
+  process.exit(0);
+}
+
 const fs = require('fs');
 const path = require('path');
 
