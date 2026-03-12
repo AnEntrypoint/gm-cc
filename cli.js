@@ -70,6 +70,8 @@ try {
   const installedPath = path.join(destDir, 'plugins', 'installed_plugins.json');
   let installed = {};
   try { installed = JSON.parse(fs.readFileSync(installedPath, 'utf-8')); } catch (e) {}
+  delete installed.version;
+  delete installed.plugins;
   installed['gm@gm-cc'] = [{ scope: 'user', installPath: cacheDir, version }];
   fs.writeFileSync(installedPath, JSON.stringify(installed, null, 2) + '\n');
 
