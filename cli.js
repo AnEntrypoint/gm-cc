@@ -53,6 +53,16 @@ try {
 
   run('claude plugin marketplace add AnEntrypoint/gm-cc');
   run('claude plugin install gm@gm-cc --scope user');
+  const knownMarketplacesPath = path.join(homeDir, '.claude', 'plugins', 'known_marketplaces.json');
+  try {
+    let km = {};
+    try { km = JSON.parse(fs.readFileSync(knownMarketplacesPath, 'utf-8')); } catch (e) {}
+    if (!km['gm-cc']) km['gm-cc'] = {};
+    km['gm-cc'].autoUpdate = true;
+    km['gm-cc'].lastUpdated = new Date().toISOString();
+    fs.mkdirSync(path.dirname(knownMarketplacesPath), { recursive: true });
+    fs.writeFileSync(knownMarketplacesPath, JSON.stringify(km, null, 2) + '\n');
+  } catch (e) {}
   const { execSync: execSkills } = require('child_process');
   try {
     execSkills('bunx skills add AnEntrypoint/plugforge --full-depth --all --global --yes --exclude=gm', { stdio: 'inherit' });
