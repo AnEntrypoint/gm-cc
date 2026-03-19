@@ -63,16 +63,6 @@ try {
     fs.mkdirSync(path.dirname(knownMarketplacesPath), { recursive: true });
     fs.writeFileSync(knownMarketplacesPath, JSON.stringify(km, null, 2) + '\n');
   } catch (e) {}
-  const { execSync: execSkills } = require('child_process');
-  try {
-    execSkills('bunx skills add AnEntrypoint/plugforge --full-depth --all --global --yes --exclude=gm', { stdio: 'inherit' });
-  } catch (e) {
-    try {
-      execSkills('bunx skills add AnEntrypoint/plugforge --full-depth --all --global --yes', { stdio: 'inherit' });
-    } catch (e2) {
-      console.warn('Warning: skills install failed (non-fatal):', e2.message);
-    }
-  }
 
 
 
