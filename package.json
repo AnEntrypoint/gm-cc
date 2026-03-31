@@ -1,6 +1,6 @@
 {
   "name": "gm-cc",
-  "version": "2.0.330",
+  "version": "2.0.331",
   "description": "State machine agent with hooks, skills, and automated git enforcement",
   "author": "AnEntrypoint",
   "license": "MIT",
@@ -24,6 +24,7 @@
   },
   "files": [
     "agents/",
+    "bin/",
     "hooks/",
     "scripts/",
     "skills/",
