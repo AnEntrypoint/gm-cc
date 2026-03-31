@@ -7,6 +7,7 @@
     "url": "https://github.com/AnEntrypoint"
   },
   "homepage": "https://github.com/AnEntrypoint/gm",
+  "source": ".",
   "hooks": "./hooks/hooks.json",
   "skills": "./skills",
   "mcpServers": {}
