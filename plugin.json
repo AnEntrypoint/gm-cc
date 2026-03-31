@@ -1,13 +1,12 @@
 {
   "name": "gm",
-  "version": "2.0.324",
+  "version": "2.0.325",
   "description": "State machine agent with hooks, skills, and automated git enforcement",
   "author": {
     "name": "AnEntrypoint",
     "url": "https://github.com/AnEntrypoint"
   },
   "homepage": "https://github.com/AnEntrypoint/gm",
-  "source": ".",
   "hooks": "./hooks/hooks.json",
   "skills": "./skills",
   "mcpServers": {}

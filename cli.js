@@ -29,7 +29,7 @@ try {
   filesToCopy.forEach(([src, dst]) => copyRecursive(path.join(srcDir, src), path.join(destDir, dst)));
 
   const { execSync: exec } = require('child_process');
-  const run = (cmd) => { try { return exec(cmd, { stdio: 'inherit', cwd: homeDir, env: { ...process.env, CLAUDECODE: '' } }); } catch (e) { console.warn('Warning:', e.message); } };
+  const run = (cmd) => { try { return exec(cmd, { stdio: 'inherit', env: { ...process.env, CLAUDECODE: '' } }); } catch (e) { console.warn('Warning:', e.message); } };
 
   const gmccHookFiles = ['post-tool-use-hook.js','pre-tool-use-hook.js','prompt-submit-hook.js','session-start-hook.js','stop-hook-git.js','stop-hook.js'];
   const gmccAgentFiles = ['gm.md'];
@@ -49,24 +49,20 @@ try {
   });
 
   const pluginCacheDir = path.join(homeDir, '.claude', 'plugins', 'cache', 'gm-cc');
-  const marketplaceCacheDir = path.join(homeDir, '.claude', 'plugins', 'marketplaces', 'gm-cc');
   copyRecursive(srcDir, pluginCacheDir);
-  copyRecursive(srcDir, marketplaceCacheDir);
 
+  run('claude plugin marketplace add AnEntrypoint/gm-cc');
+  run('claude plugin install gm@gm-cc --scope user');
   const knownMarketplacesPath = path.join(homeDir, '.claude', 'plugins', 'known_marketplaces.json');
   try {
     let km = {};
     try { km = JSON.parse(fs.readFileSync(knownMarketplacesPath, 'utf-8')); } catch (e) {}
     if (!km['gm-cc']) km['gm-cc'] = {};
-    km['gm-cc'].source = { source: 'github', repo: 'AnEntrypoint/gm-cc' };
-    km['gm-cc'].installLocation = marketplaceCacheDir;
     km['gm-cc'].autoUpdate = true;
     km['gm-cc'].lastUpdated = new Date().toISOString();
     fs.mkdirSync(path.dirname(knownMarketplacesPath), { recursive: true });
     fs.writeFileSync(knownMarketplacesPath, JSON.stringify(km, null, 2) + '\n');
   } catch (e) {}
-
-  run('claude plugin install gm@gm-cc');
 
   const destPath = process.platform === 'win32' ? destDir.replace(/\\/g, '/') : destDir;
   console.log(`✓ gm-cc ${isUpgrade ? 'upgraded' : 'installed'} to ${destPath}`);
